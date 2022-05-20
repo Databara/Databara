@@ -1,7 +1,9 @@
 import { useState } from "react";
-
-import "./Workspace.css";
-
+import { Flex } from "@chakra-ui/react";
 export default function Workspace() {
-  return <main className="workspace">Workspace</main>;
+  return (
+    <Flex as={"main"} margin={4}>
+      Workspace
+    </Flex>
+  );
 }

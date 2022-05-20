@@ -9,3 +9,15 @@ pub(crate) fn get_catalog_names(ctx: &SessionContext) -> Vec<String> {
 pub(crate) fn get_schema_names(ctx: &SessionContext, catalog_name: &str) -> Option<Vec<String>> {
   ctx.catalog(catalog_name).clone().map(|c| c.schema_names())
 }
+
+pub(crate) fn get_table_names(
+  ctx: &SessionContext,
+  catalog_name: &str,
+  schema_name: &str,
+) -> Option<Vec<String>> {
+  ctx
+    .catalog(catalog_name)
+    .clone()
+    .and_then(|c| c.schema(schema_name).clone())
+    .map(|s| s.table_names())
+}

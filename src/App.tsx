@@ -1,16 +1,14 @@
 import { useState } from "react";
-import "./App.css";
 import Sidebar from "./Sidebar";
 import Workspace from "./Workspace";
+import { Flex } from "@chakra-ui/react";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="app">
+    <Flex direction={"row"} height="100%">
       <Sidebar />
       <Workspace />
-    </div>
+    </Flex>
   );
 }
 

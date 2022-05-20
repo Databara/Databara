@@ -12,7 +12,11 @@ fn main() -> std::result::Result<(), DatabaraError> {
   tauri::Builder::default()
     .manage(DfState::new())
     .manage(DbState::try_new()?)
-    .invoke_handler(tauri::generate_handler![commands::catalogs])
+    .invoke_handler(tauri::generate_handler![
+      commands::catalogs,
+      commands::schemas,
+      commands::tables,
+    ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
   Ok(())

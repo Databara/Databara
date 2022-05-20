@@ -1,18 +1,19 @@
+use datafusion::error::DataFusionError;
 use datafusion::execution::context::SessionContext;
-use std::sync::Mutex;
+use std::sync::Arc;
 
 pub struct DfState {
-  pub ctx: Mutex<SessionContext>,
+  pub ctx: Arc<SessionContext>,
 }
 
 impl DfState {
-  pub fn new() -> Self {
-    DfState {
-      ctx: Mutex::new(create_datafusion_context()),
-    }
+  pub fn new() -> std::result::Result<Self, DataFusionError> {
+    Ok(DfState {
+      ctx: Arc::new(create_datafusion_context()?),
+    })
   }
 }
 
-fn create_datafusion_context() -> SessionContext {
-  SessionContext::new()
+fn create_datafusion_context() -> std::result::Result<SessionContext, DataFusionError> {
+  Ok(SessionContext::new())
 }

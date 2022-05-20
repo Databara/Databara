@@ -102,30 +102,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "arrow"
-version = "14.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0612b6a634de6c3f5e63fdaa6932f7bc598f92de0462ac6e69b0aebd77e093aa"
-dependencies = [
- "bitflags",
- "chrono",
- "csv",
- "flatbuffers",
- "half",
- "hex",
- "indexmap",
- "lazy_static",
- "lexical-core",
- "multiversion",
- "num",
- "rand 0.8.5",
- "regex",
- "serde",
- "serde_derive",
- "serde_json",
-]
-
-[[package]]
 name = "async-trait"
 version = "0.1.53"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -682,7 +658,7 @@ dependencies = [
 name = "databara"
 version = "0.1.0"
 dependencies = [
- "arrow 14.0.0",
+ "arrow",
  "datafusion",
  "rusqlite",
  "serde",
@@ -700,7 +676,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8174c458d0266ba442038160fad2c98f02924e6179d6d46175f600b69abb5bb7"
 dependencies = [
  "ahash",
- "arrow 13.0.0",
+ "arrow",
  "async-trait",
  "chrono",
  "datafusion-common",
@@ -733,7 +709,7 @@ version = "8.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8c687e12a58d1499b19ee899fa467d122c8cc9223570af6f3eb3c4d9d9be929b"
 dependencies = [
- "arrow 13.0.0",
+ "arrow",
  "ordered-float 3.0.0",
  "parquet",
  "sqlparser",
@@ -761,7 +737,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d20909d70931b88605b6f121c0ed820cec1d5b802cb51b7b5759f0421be3add8"
 dependencies = [
  "ahash",
- "arrow 13.0.0",
+ "arrow",
  "datafusion-common",
  "sqlparser",
 ]
@@ -773,7 +749,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ad9083cb20b57216430d5b8e52341782d9520ce77e65c60803e330fd09bdfa6e"
 dependencies = [
  "ahash",
- "arrow 13.0.0",
+ "arrow",
  "blake2",
  "blake3",
  "chrono",
@@ -797,7 +773,7 @@ version = "8.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0f649a2021eefef44e0bef6782d053148b2fef74db7592fecfe87e042d52947a"
 dependencies = [
- "arrow 13.0.0",
+ "arrow",
  "datafusion-common",
  "paste",
  "rand 0.8.5",
@@ -2373,7 +2349,7 @@ version = "13.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6c6d737baed48775e87a69aa262f1fa2f1d6bd074dedbe9cac244b9aabf2a0b4"
 dependencies = [
- "arrow 13.0.0",
+ "arrow",
  "base64",
  "brotli",
  "byteorder",

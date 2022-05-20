@@ -16,5 +16,11 @@ impl DbState {
 
 fn create_rusqlite_conn() -> std::result::Result<Connection, DatabaraError> {
   let conn = Connection::open_in_memory()?;
+  // embedded::migrations::runner().run(&mut conn)?;
   Ok(conn)
 }
+
+// mod embedded {
+//   use refinery::embed_migrations;
+//   embed_migrations!("./migrations/v1__init.sql");
+// }

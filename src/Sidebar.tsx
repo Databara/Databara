@@ -9,11 +9,41 @@ import {
   Select,
 } from "@chakra-ui/react";
 
-function CatalogSelect({
-  setCatalog,
+type ChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => void;
+
+function ArraySelect({
+  items,
+  handleChange,
+  itemType,
 }: {
-  setCatalog: (catalog: string) => void;
+  items: string[] | null;
+  itemType: "catalog" | "schema" | "table";
+  handleChange: ChangeHandler;
 }) {
+  let content = <Select isDisabled={true} placeholder={"N/A"}></Select>;
+  if (Array.isArray(items)) {
+    const empty = items.length === 0;
+    const placeholder = empty
+      ? `No ${itemType}s found`
+      : `Select ${itemType}...`;
+    content = (
+      <Select
+        placeholder={placeholder}
+        onChange={handleChange}
+        isDisabled={empty}
+      >
+        {items.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
+      </Select>
+    );
+  }
+  return content;
+}
+
+function CatalogSelect({ handleChange }: { handleChange: ChangeHandler }) {
   const [catalogs, setCatalogs] = useState<string[] | null>(null);
   async function loadCatalogs() {
     const catalogs: string[] = await invoke("catalogs");
@@ -22,48 +52,27 @@ function CatalogSelect({
   useEffect(() => {
     loadCatalogs();
   });
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCatalog(event.target.value);
-  };
-  let content = (
-    <Select isDisabled={true} placeholder="Loading Catalogs..."></Select>
+  return (
+    <ArraySelect
+      items={catalogs}
+      itemType={"catalog"}
+      handleChange={handleChange}
+    />
   );
-  if (Array.isArray(catalogs)) {
-    const empty = catalogs.length === 0;
-    const placeholder = empty ? "No catalogs found" : "Select Catalog...";
-    content = (
-      <Select
-        placeholder={placeholder}
-        onChange={handleChange}
-        isDisabled={empty}
-      >
-        {catalogs.map((catalog) => (
-          <option key={catalog} value={catalog}>
-            {catalog}
-          </option>
-        ))}
-      </Select>
-    );
-  }
-  return content;
 }
 
 function SchemaSelect({
   catalog,
-  setSchema,
+  handleChange,
 }: {
   catalog: string;
-  setSchema: (schema: string) => void;
+  handleChange: ChangeHandler;
 }) {
   const [schemas, setSchemas] = useState<string[] | null>(null);
   async function loadSchemas(catalog: string) {
     const schemas: string[] = await invoke("schemas", { catalog });
     setSchemas(schemas);
   }
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSchema(event.target.value);
-  };
-  const disabled = catalog === "";
   useEffect(() => {
     if (catalog !== "") {
       loadSchemas(catalog);
@@ -71,50 +80,29 @@ function SchemaSelect({
       setSchemas(null);
     }
   }, [catalog]);
-  let content = (
-    <Select
-      isDisabled={disabled}
-      placeholder={disabled ? "N/A" : "Loading Schemas..."}
-    ></Select>
+  return (
+    <ArraySelect
+      items={schemas}
+      itemType={"schema"}
+      handleChange={handleChange}
+    />
   );
-  if (Array.isArray(schemas)) {
-    const empty = schemas.length === 0;
-    const placeholder = empty ? "No schemas found" : "Select Schema...";
-    content = (
-      <Select
-        placeholder={placeholder}
-        onChange={handleChange}
-        isDisabled={schemas.length === 0}
-      >
-        {schemas.map((schema) => (
-          <option key={schema} value={schema}>
-            {schema}
-          </option>
-        ))}
-      </Select>
-    );
-  }
-  return content;
 }
 
 function TableSelect({
   catalog,
   schema,
-  setTable,
+  handleChange,
 }: {
   catalog: string;
   schema: string;
-  setTable: (table: string) => void;
+  handleChange: ChangeHandler;
 }) {
   const [tables, setTables] = useState<string[] | null>(null);
   async function loadTables(catalog: string, schema: string) {
     const tables: string[] = await invoke("tables", { catalog, schema });
     setTables(tables);
   }
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTable(event.target.value);
-  };
-  const disabled = catalog.length === 0 || schema.length === 0;
   useEffect(() => {
     if (catalog !== "" && schema !== "") {
       loadTables(catalog, schema);
@@ -122,36 +110,20 @@ function TableSelect({
       setTables(null);
     }
   }, [catalog, schema]);
-  let content = (
-    <Select
-      isDisabled={disabled}
-      placeholder={disabled ? "N/A" : "Loading Tables..."}
-    ></Select>
+  return (
+    <ArraySelect
+      items={tables}
+      itemType={"table"}
+      handleChange={handleChange}
+    />
   );
-  if (Array.isArray(tables)) {
-    const empty = tables.length === 0;
-    const placeholder = empty ? "No tables found" : "Select Table...";
-    content = (
-      <Select
-        placeholder={placeholder}
-        onChange={handleChange}
-        isDisabled={empty}
-      >
-        {tables.map((table) => (
-          <option key={table} value={table}>
-            {table}
-          </option>
-        ))}
-      </Select>
-    );
-  }
-  return content;
 }
 
 export default function Sidebar() {
   const [catalog, setCatalog] = useState<string>("");
   const [schema, setSchema] = useState<string>("");
   const [table, setTable] = useState<string>("");
+  console.info({ catalog, schema, table });
   return (
     <VStack
       minWidth={270}
@@ -162,17 +134,33 @@ export default function Sidebar() {
     >
       <FormControl>
         <FormLabel htmlFor="catalog">Catalog</FormLabel>
-        <CatalogSelect setCatalog={setCatalog} />
+        <CatalogSelect
+          handleChange={(e) => {
+            setCatalog(e.target.value);
+            setSchema("");
+            setTable("");
+          }}
+        />
       </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="schema">Schema</FormLabel>
-        <SchemaSelect catalog={catalog} setSchema={setSchema} />
+        <SchemaSelect
+          catalog={catalog}
+          handleChange={(e) => {
+            setSchema(e.target.value);
+            setTable("");
+          }}
+        />
       </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="table">Table</FormLabel>
-        <TableSelect catalog={catalog} schema={schema} setTable={setTable} />
+        <TableSelect
+          catalog={catalog}
+          schema={schema}
+          handleChange={(e) => setTable(e.target.value)}
+        />
       </FormControl>
 
       <Spacer />

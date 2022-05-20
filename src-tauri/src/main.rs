@@ -3,8 +3,15 @@
   windows_subsystem = "windows"
 )]
 
-fn main() {
+use databara::error::DatabaraError;
+use databara::models::DbState;
+use databara::session::DfState;
+
+fn main() -> std::result::Result<(), DatabaraError> {
   tauri::Builder::default()
+    .manage(DfState::new())
+    .manage(DbState::try_new()?)
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
+  Ok(())
 }

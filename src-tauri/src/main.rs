@@ -7,9 +7,12 @@ use databara::commands;
 use databara::error::DatabaraError;
 use databara::models::DbState;
 use databara::session::DfState;
+use tauri::{CustomMenuItem, Menu};
 
 fn main() -> std::result::Result<(), DatabaraError> {
+    let menu = Menu::new().add_item(CustomMenuItem::new("file", "File"));
     tauri::Builder::default()
+        .menu(menu)
         .manage(DfState::new()?)
         .manage(DbState::try_new()?)
         .invoke_handler(tauri::generate_handler![

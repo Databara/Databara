@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Select, FormControl, FormLabel } from "@chakra-ui/react";
+import { Select, FormControl, FormLabel, Flex, VStack } from "@chakra-ui/react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { TableReference } from "./types";
 
@@ -133,7 +133,7 @@ export default function TableSelector({
     }
   }, [catalog, schema, table]);
   return (
-    <>
+    <VStack align={"stretch"}>
       <FormControl>
         <FormLabel htmlFor="catalog">Catalog</FormLabel>
         <CatalogSelect
@@ -164,6 +164,6 @@ export default function TableSelector({
           handleChange={(e) => setTable(e.target.value)}
         />
       </FormControl>
-    </>
+    </VStack>
   );
 }

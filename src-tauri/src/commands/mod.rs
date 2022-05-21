@@ -45,3 +45,16 @@ pub async fn preview_table(
         .await
         .map_err(|e| e.to_string())
 }
+
+#[tauri::command]
+pub async fn preview_schema(
+    state: tauri::State<'_, DfState>,
+    catalog: String,
+    schema: String,
+    table: String,
+) -> std::result::Result<Vec<serde_json::Map<String, serde_json::Value>>, String> {
+    let ctx = state.ctx.clone();
+    preview::preview_schema(&ctx, catalog, schema, table)
+        .await
+        .map_err(|e| e.to_string())
+}

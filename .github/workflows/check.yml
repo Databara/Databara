@@ -26,7 +26,7 @@ jobs:
           node-version: 16
           cache: npm
 
-      - name: install dependencies (ubuntu only)
+      - name: Install dependencies (ubuntu only)
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
@@ -36,7 +36,7 @@ jobs:
         run: npm ci
 
       - name: Run npm build
-        run: npm build
+        run: npm run build
 
       - name: Run tauri build
         uses: tauri-apps/tauri-action@v0

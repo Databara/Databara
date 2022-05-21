@@ -18,6 +18,7 @@ fn main() -> std::result::Result<(), DatabaraError> {
             commands::tables,
             commands::seed_table,
             commands::preview_schema,
+            commands::preview_table,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

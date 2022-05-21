@@ -8,7 +8,7 @@ use serde_json::Value;
 type JsonResult = Vec<Map<String, Value>>;
 
 async fn sql_to_json(ctx: &SessionContext, sql: &str) -> Result<JsonResult> {
-    let df = ctx.sql(&sql).await?;
+    let df = ctx.sql(sql).await?;
     let batches = df.collect().await?;
     record_batches_to_json_rows(batches.as_slice()).map_err(DataFusionError::ArrowError)
 }

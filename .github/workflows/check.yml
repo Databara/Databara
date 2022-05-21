@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  check:
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -37,6 +37,12 @@ jobs:
 
       - name: Run npm build
         run: npm run build
+
+      - name: Run fmt and clippy check
+        run: |
+          cd src-tauri
+          cargo fmt --all -- --check
+          cargo clippy --all -- -D warnings
 
       - name: Run tauri build
         uses: tauri-apps/tauri-action@v0

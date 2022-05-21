@@ -1,5 +1,5 @@
 use datafusion::error::DataFusionError;
-use datafusion::execution::context::SessionContext;
+use datafusion::execution::context::{SessionConfig, SessionContext};
 use std::sync::Arc;
 
 pub struct DfState {
@@ -15,5 +15,6 @@ impl DfState {
 }
 
 fn create_datafusion_context() -> std::result::Result<SessionContext, DataFusionError> {
-    Ok(SessionContext::new())
+    let config = SessionConfig::new().with_information_schema(true);
+    Ok(SessionContext::with_config(config))
 }

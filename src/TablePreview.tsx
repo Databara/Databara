@@ -1,16 +1,37 @@
-import { Flex, Table, Tbody, Text, Tr } from "@chakra-ui/react";
+import {
+  TableCaption,
+  TableContainer,
+  Table,
+  Tbody,
+  Text,
+  Tr,
+  Td,
+  Thead,
+  Th,
+} from "@chakra-ui/react";
 import { TableReference } from "./types";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useEffect, useState } from "react";
+
+type InfoSchema = {
+  character_octet_length: number;
+  column_name: string;
+  data_type: string;
+  is_nullable: string;
+  ordinal_position: number;
+  table_catalog: string;
+  table_name: string;
+  table_schema: string;
+};
 
 export default function TablePreview({
   tableRef,
 }: {
   tableRef: TableReference | null;
 }) {
-  const [records, setRecords] = useState<Record<string, any>[] | null>(null);
+  const [records, setRecords] = useState<InfoSchema[] | null>(null);
   async function previewTable(catalog: string, schema: string, table: string) {
-    const data: Record<string, any>[] = await invoke("preview_table", {
+    const data: InfoSchema[] = await invoke("preview_schema", {
       catalog,
       schema,
       table,
@@ -31,12 +52,32 @@ export default function TablePreview({
   }
 
   return (
-    <Table variant="simple">
-      <Tbody>
-        {records.map((record) => {
-          return <Tr>{`${record.column1}`}</Tr>;
-        })}
-      </Tbody>
-    </Table>
+    <TableContainer overflow={"scroll"}>
+      <Table variant="striped" size="sm" colorScheme={"blackAlpha"}>
+        <TableCaption placement="top">
+          {tableRef.catalog}.{tableRef.schema}.{tableRef.table}
+        </TableCaption>
+        <Thead>
+          <Tr>
+            <Th isNumeric>#</Th>
+            <Th>Name</Th>
+            <Th>Data Type</Th>
+            <Th>Nullable</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {records
+            .sort((a, b) => a.ordinal_position - b.ordinal_position)
+            .map((record) => (
+              <Tr>
+                <Td isNumeric>{record.ordinal_position}</Td>
+                <Td>{record.column_name}</Td>
+                <Td>{record.data_type}</Td>
+                <Td>{record.is_nullable}</Td>
+              </Tr>
+            ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
   );
 }

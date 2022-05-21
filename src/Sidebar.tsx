@@ -13,6 +13,7 @@ export default function Sidebar() {
       as={"header"}
       padding={4}
       spacing={4}
+      align={"stretch"}
       divider={<StackDivider borderColor="gray.200" />}
     >
       <TableSelector onSelect={setTableRef} />

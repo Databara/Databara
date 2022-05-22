@@ -1,5 +1,7 @@
-use crate::error::{DatabaraError, Result};
+use crate::error::Result;
+use diesel::connection::Connection;
 use diesel::sqlite::SqliteConnection;
+use dotenv::dotenv;
 use std::env;
 use std::sync::Mutex;
 
@@ -15,11 +17,11 @@ impl DbState {
   }
 }
 
-const IN_MEMORY_URL: &str = "sqlite://:memory:";
+const IN_MEMORY_URL: &str = ":memory:";
 
-fn establish_connection() -> SqliteConnection {
+fn establish_connection() -> Result<SqliteConnection> {
   dotenv().ok();
   let database_url = env::var("DATABASE_URL").unwrap_or(IN_MEMORY_URL.to_string());
-  SqliteConnection::establish(&database_url)
-    .expect(&format!("Error connecting to {}", database_url))
+  let conn = SqliteConnection::establish(&database_url)?;
+  Ok(conn)
 }

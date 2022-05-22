@@ -5,7 +5,6 @@
 
 use databara::commands;
 use databara::db::DbState;
-use databara::error::DatabaraError;
 use databara::error::Result;
 use databara::session::DfState;
 

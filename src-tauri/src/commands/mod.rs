@@ -1,8 +1,9 @@
 mod catalog;
+mod editor;
 mod preview;
 mod seed;
 
-use super::session::DfState;
+use crate::session::DfState;
 
 #[tauri::command]
 pub fn catalogs(state: tauri::State<DfState>) -> Vec<String> {

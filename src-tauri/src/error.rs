@@ -7,3 +7,5 @@ pub enum DatabaraError {
     #[error("datafusion error")]
     DataFusionError(#[from] datafusion::error::DataFusionError),
 }
+
+pub type Result<T> = std::result::Result<T, DatabaraError>;

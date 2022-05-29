@@ -13,13 +13,13 @@
     "@chakra-ui/react": "^2.0.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@tauri-apps/api": "^1.0.0-rc.5",
+    "@tauri-apps/api": "^1.0.0-rc.6",
     "framer-motion": "^6.3.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.11",
+    "@tauri-apps/cli": "^1.0.0-rc.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",

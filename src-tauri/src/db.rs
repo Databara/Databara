@@ -21,7 +21,7 @@ const IN_MEMORY_URL: &str = ":memory:";
 
 fn establish_connection() -> Result<SqliteConnection> {
     dotenv().ok();
-    let database_url = env::var("DATABASE_URL").unwrap_or_else(|| IN_MEMORY_URL.to_string());
+    let database_url = env::var("DATABASE_URL").unwrap_or_else(|_| IN_MEMORY_URL.to_string());
     let conn = SqliteConnection::establish(&database_url)?;
     Ok(conn)
 }

@@ -4,11 +4,11 @@
 )]
 
 use databara::commands;
-use databara::error::DatabaraError;
-use databara::models::DbState;
+use databara::db::DbState;
+use databara::error::Result;
 use databara::session::DfState;
 
-fn main() -> std::result::Result<(), DatabaraError> {
+fn main() -> Result<()> {
     tauri::Builder::default()
         .manage(DfState::new()?)
         .manage(DbState::try_new()?)

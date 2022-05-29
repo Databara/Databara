@@ -623,7 +623,6 @@ dependencies = [
 name = "databara"
 version = "0.1.0"
 dependencies = [
- "arrow",
  "datafusion",
  "diesel",
  "diesel_migrations",

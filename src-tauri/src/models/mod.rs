@@ -1,4 +1,4 @@
 mod db_state;
 mod editor;
 
-pub use db_state::DbState;
+pub use db_state::EditorTab;

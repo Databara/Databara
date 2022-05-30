@@ -1,4 +1,4 @@
-use arrow::json::writer::record_batches_to_json_rows;
+use datafusion::arrow::json::writer::record_batches_to_json_rows;
 use datafusion::error::DataFusionError;
 use datafusion::error::Result;
 use datafusion::execution::context::SessionContext;

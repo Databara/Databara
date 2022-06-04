@@ -1,6 +1,6 @@
 table! {
     editor_tabs (id) {
-        id -> Nullable<Integer>,
+        id -> Integer,
         title -> Nullable<Text>,
         content -> Nullable<Text>,
         created_at -> Integer,
